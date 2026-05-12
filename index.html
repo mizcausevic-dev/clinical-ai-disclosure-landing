@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clinical AI Disclosure — what does your healthcare AI vendor actually publish?</title>
+  <meta name="description" content="An open JSON specification for vendor disclosure of AI systems used in healthcare. HIPAA / FDA / SaMD posture, bias audits, EHR integration. Built for hospital procurement, CMIOs, and compliance officers." />
+  <meta name="theme-color" content="#0369a1" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Clinical AI Disclosure — HealthTech disclosure for AI vendors" />
+  <meta property="og:description" content="Open JSON spec for AI in healthcare. HIPAA / FDA / SaMD posture, bias audits, EHR integration. The HealthTech vertical of the Kinetic Gain Protocol Suite." />
+  <meta property="og:url" content="https://clinical.kineticgain.com/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="/" class="brand" aria-label="Clinical AI Disclosure home">
+        <span class="brand-mark" aria-hidden="true">✚</span>
+        <span class="brand-text">
+          <strong>Clinical AI Disclosure</strong>
+          <small>Kinetic Gain Protocol Suite · HealthTech</small>
+        </span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#why">Why</a>
+        <a href="#spec">Spec</a>
+        <a href="#example">Example</a>
+        <a href="#tooling">Tooling</a>
+        <a class="cta" href="https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec" target="_blank" rel="noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="pill">HealthTech extension · v0.1 draft</span>
+        <h1>What does your healthcare AI vendor actually disclose?</h1>
+        <p class="lede">
+          <strong>Clinical AI Disclosure</strong> is an open JSON specification that forces healthcare AI
+          vendors to declare — in machine-readable form — exactly what their system does, what FDA / SaMD
+          class it falls under, what evidence supports it, what HIPAA posture it carries, and how it
+          integrates with the EHR. Built for hospital CMIOs, compliance officers, and procurement teams
+          tired of reading 40-page vendor whitepapers.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec" target="_blank" rel="noreferrer">Read the spec</a>
+          <a class="btn btn-secondary" href="https://mizcausevic-dev.github.io/kinetic-gain-visualizer/?view=editor" target="_blank" rel="noreferrer">Try the visualizer</a>
+        </div>
+        <ul class="hero-bullets">
+          <li><span class="dot dot-blue"></span> <strong>Autonomy ⇔ device:</strong> autonomous clinical AI MUST be classified as a medical device — schema-enforced</li>
+          <li><span class="dot dot-blue"></span> <strong>Bias audit as first-class field</strong> — required for SaMD class II+ and autonomous decision support</li>
+          <li><span class="dot dot-blue"></span> Served at <code>/.well-known/clinical-ai/&lt;system_id&gt;.json</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="why" class="block">
+      <div class="block-inner">
+        <h2>Why a Clinical AI Card?</h2>
+        <p class="prose">
+          Today, hospital procurement teams read AI-vendor whitepapers, HIPAA attestations, and (when applicable) FDA 510(k) summaries as PDFs. A Clinical AI Card is the same content in a format an EHR app gallery, an automated procurement tool, or a compliance auditor can read in milliseconds. The fields map directly to controls in CMS Conditions of Participation, 21st Century Cures Act information-blocking provisions, and HIPAA security-rule audits.
+        </p>
+        <div class="grid grid-3">
+          <article class="card">
+            <h3>Regulatory posture, machine-readable</h3>
+            <p>FDA status (<code>510k_cleared</code> / <code>de_novo</code> / <code>pma</code> / <code>enforcement_discretion</code> / <code>research_use_only</code>), clearance number + URI, ISO certifications, SaMD class + classification rationale, regional authorizations.</p>
+          </article>
+          <article class="card">
+            <h3>Clinical role, declared</h3>
+            <p><code>decision_support_level</code> (<code>informational</code> / <code>advisory</code> / <code>autonomous</code>), clinician-override-required, patient-facing, transparency-to-patient, pre-authorization use.</p>
+          </article>
+          <article class="card">
+            <h3>Evidence as a procurement asset</h3>
+            <p>Validation studies with population size + peer-review status, training data sources, sensitivity / specificity / AUC with measurement population, and the bias-audit URI — required for SaMD class II+.</p>
+          </article>
+          <article class="card">
+            <h3>HIPAA / patient-data posture</h3>
+            <p>PHI processed flag gates explicit HIPAA + BAA posture. De-identification method, retention days, patient consent, third-party sharing, model-training consent — all declared at the field level.</p>
+          </article>
+          <article class="card">
+            <h3>Safety + mandated reporting</h3>
+            <p>Human-in-loop categories, escalation protocols, mandatory reporting (adverse drug events, abuse, suicide risk, infectious disease), and diagnostic-claim blocking for non-FDA-cleared systems.</p>
+          </article>
+          <article class="card">
+            <h3>EHR integration, declared</h3>
+            <p>FHIR version (R4 / R5), SMART-on-FHIR support, CDS Hooks support, supported EHR vendors (Epic / Cerner / Athena / MEDITECH / Allscripts / eClinicalWorks).</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="spec" class="block block-tinted">
+      <div class="block-inner">
+        <h2>The eight required sections</h2>
+        <ol class="numbered">
+          <li><strong>System</strong> — <code>id</code>, <code>name</code>, <code>version</code>, <code>provider</code>, <code>description</code></li>
+          <li><strong>Clinical context</strong> — indication, care setting, patient population, intended use, off-label-uses-prohibited</li>
+          <li><strong>Regulatory</strong> — FDA status, clearance number + URI, ISO certifications, SaMD class</li>
+          <li><strong>Clinical role</strong> — decision-support level, clinician override, patient-facing flag, transparency</li>
+          <li><strong>Evidence</strong> — validation studies, training-data sources, bias audit URI, performance metrics</li>
+          <li><strong>Patient data</strong> — PHI processed, HIPAA, BAA, retention, consent, third-party sharing</li>
+          <li><strong>Safety</strong> — human-in-loop categories, escalation, mandatory reporting, diagnostic-claim blocking</li>
+          <li><strong>EHR integration</strong> (optional) — FHIR version, SMART on FHIR, CDS Hooks, EHR vendors supported</li>
+        </ol>
+        <p class="prose">
+          Plus optional sections for the underlying <code>agent_card_uri</code> back-reference, independent
+          <code>evaluations[]</code>, and an <code>audit</code> block (audit log URI, incident response,
+          AI Incident Card index). The full schema is published as a JSON Schema draft 2020-12 document
+          with <strong>seven conditional rules</strong> baked in — including the headline autonomy ⇔
+          medical-device rule.
+        </p>
+      </div>
+    </section>
+
+    <section id="example" class="block">
+      <div class="block-inner">
+        <h2>A canonical example: sepsis early warning</h2>
+        <p class="prose">A 510(k)-cleared SaMD class II early-warning system. EHR-integrated, clinician-override-required, multi-site validated, bias-audited. The same document is served at <code>/.well-known/clinical-ai/kineticgain-sepsis-ews.json</code> for automated discovery.</p>
+        <pre class="code-block"><code>{
+  "clinical_ai_card_version": "0.1",
+  "system": {
+    "id": "kineticgain-sepsis-ews",
+    "name": "Kinetic Gain Sepsis Early Warning System",
+    "version": "2.3.1",
+    "provider": "Kinetic Gain Health"
+  },
+  "clinical_context": {
+    "indication": "Early detection of adult inpatient sepsis...",
+    "care_settings": ["inpatient", "icu"],
+    "patient_population": { "age_range_min": 18, "age_range_max": 89 },
+    "intended_use": "Clinical decision support for adult inpatient providers...",
+    "off_label_uses_prohibited": true
+  },
+  "regulatory": {
+    "fda_status": "510k_cleared",
+    "fda_clearance_number": "K233456",
+    "fda_clearance_uri": "https://www.accessdata.fda.gov/.../K233456",
+    "iso_certifications": ["ISO 13485", "IEC 62304", "ISO 14971"],
+    "is_medical_device": true,
+    "is_clinical_decision_support": true,
+    "is_software_as_medical_device": true,
+    "samd_class": "II",
+    "samd_classification_rationale": "Serious situation, drive clinical management → Class II"
+  },
+  "clinical_role": {
+    "decision_support_level": "advisory",
+    "clinician_override_required": true,
+    "patient_facing_only": false,
+    "transparency_to_patient_required": true
+  },
+  "evidence": {
+    "validation_studies": [/* multi-site prospective N=48,217 */],
+    "bias_audit_uri": "https://health.kineticgain.com/audits/sepsis-ews-bias.pdf",
+    "performance_metrics": {
+      "sensitivity": 0.84, "specificity": 0.78, "auc": 0.89,
+      "measurement_population": "Adult inpatient at 4 US academic centers, 2024-2025"
+    }
+  },
+  "patient_data": {
+    "phi_processed": true, "hipaa_compliant": true, "baa_required": true,
+    "retention_days": 365, "third_party_data_sharing": false
+  },
+  "safety": {
+    "human_in_loop_required_for": ["pediatric-routed", "obstetric-patient", "comfort-care-only"],
+    "mandatory_reporting_categories": ["adverse-drug-event-related-to-acted-on-alert"]
+  },
+  "ehr_integration": {
+    "fhir_version": "R4",
+    "supports_smart_on_fhir": true,
+    "supports_cds_hooks": true,
+    "ehr_vendors_supported": ["Epic", "Cerner", "MEDITECH"]
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="tooling" class="block block-dark">
+      <div class="block-inner">
+        <h2>Tooling around the spec</h2>
+        <div class="grid grid-3">
+          <a class="card card-dark" href="https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec" target="_blank" rel="noreferrer">
+            <div class="card-eyebrow">Specification</div>
+            <h3>clinical-ai-disclosure-spec</h3>
+            <p>The normative spec, JSON Schema, and three canonical examples (sepsis EWS, patient-triage chatbot, research-use molecule design). AGPL-3.0.</p>
+            <span class="link">View repo →</span>
+          </a>
+          <a class="card card-dark" href="https://mizcausevic-dev.github.io/kinetic-gain-visualizer/" target="_blank" rel="noreferrer">
+            <div class="card-eyebrow">Visualizer</div>
+            <h3>kinetic-gain-visualizer</h3>
+            <p>One visualizer for all 10 specs in the Kinetic Gain Protocol Suite. Auto-detects via <code>clinical_ai_card_version</code>; renders a procurement-grade view.</p>
+            <span class="link">Open visualizer →</span>
+          </a>
+          <a class="card card-dark" href="https://github.com/mizcausevic-dev/mcp-kinetic-gain" target="_blank" rel="noreferrer">
+            <div class="card-eyebrow">MCP server</div>
+            <h3>mcp-kinetic-gain</h3>
+            <p>Unified MCP server. v0.4.0 exposes 34 tools across 8 specs; a v0.5 will add Clinical-AI tools for fetch / validate / inspect / compliance-check.</p>
+            <span class="link">View on GitHub →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-inner block-narrow">
+        <h2>About the Kinetic Gain Protocol Suite</h2>
+        <p class="prose">
+          Clinical AI Disclosure is the <strong>HealthTech vertical extension</strong> to a family of ten open JSON specifications built for the answer-engine and agent era. Five core specs (<a href="https://github.com/mizcausevic-dev/aeo-protocol-spec" target="_blank" rel="noreferrer">AEO Protocol</a>, <a href="https://github.com/mizcausevic-dev/prompt-provenance-spec" target="_blank" rel="noreferrer">Prompt Provenance</a>, <a href="https://github.com/mizcausevic-dev/agent-cards-spec" target="_blank" rel="noreferrer">Agent Cards</a>, <a href="https://github.com/mizcausevic-dev/ai-evidence-format-spec" target="_blank" rel="noreferrer">AI Evidence Format</a>, <a href="https://github.com/mizcausevic-dev/mcp-tool-card-spec" target="_blank" rel="noreferrer">MCP Tool Cards</a>) plus an <a href="https://tutor.kineticgain.com" target="_blank" rel="noreferrer">EdTech trio</a> and the cross-cutting <a href="https://github.com/mizcausevic-dev/ai-incident-card-spec" target="_blank" rel="noreferrer">AI Incident Card</a>.
+        </p>
+        <p class="prose">
+          A single Clinical AI Card cross-references the underlying Agent Card, AI Evidence documents for each validation study, and the AI Incident Card index. A CMIO pulls one card and chains through to every related disclosure in one document-graph walk. <strong>No procurement-team PDF marathon.</strong>
+        </p>
+        <p class="prose">
+          All specs are AGPL-3.0 for normative text, with unrestricted implementation freedom. Built by <a href="https://kineticgain.com" target="_blank" rel="noreferrer">Miz Causevic</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <small>© 2026 Miz Causevic · <a href="https://kineticgain.com" target="_blank" rel="noreferrer">kineticgain.com</a> · <a href="https://github.com/mizcausevic-dev" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/mirzacausevic/" target="_blank" rel="noreferrer">LinkedIn</a></small>
+      <small class="code">clinical.kineticgain.com · Clinical AI Disclosure v0.1</small>
+    </div>
+  </footer>
+</body>
+</html>
