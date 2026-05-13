@@ -1,0 +1,36 @@
+# Clinical AI Disclosure
+
+> HealthTech vendor-side disclosure for clinical AI systems.
+
+An open JSON spec for AI systems used in healthcare: clinical context, FDA / De Novo / PMA / SaMD class, clinical role (informational / advisory / autonomous), evidence (validation studies + bias audit + performance metrics), HIPAA + BAA posture, EHR integration (FHIR / SMART / CDS Hooks), safety + mandatory reporting.
+
+## Identity
+
+- **Subdomain**: [clinical.kineticgain.com](https://clinical.kineticgain.com/)
+- **Spec repo**: [github.com/mizcausevic-dev/clinical-ai-disclosure-spec](https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec)
+- **Detect via**: top-level `clinical_ai_card_version` field in the JSON document
+- **Well-known path**: `/.well-known/clinical-ai/<system_id>.json`
+- **Buyer audience**: Hospital CMIO · Compliance · Procurement · CMS auditors
+- **Category**: HealthTech extension — Clinical AI Disclosure (vendor-side)
+- **License**: AGPL-3.0 for spec text; Apache-2.0 for the landing site
+- **Deployment**: GitHub Actions FTP CI/CD on push to main
+
+## Pages
+
+- [/](https://clinical.kineticgain.com/): Clinical AI Disclosure — HealthTech vendor-side disclosure for clinical AI systems.
+
+## Part of the Kinetic Gain Protocol Suite
+
+A family of **10 open JSON specifications** for the answer-engine and agent era — five core (AEO, Prompt Provenance, Agent Cards, AI Evidence Format, MCP Tool Cards), a three-spec EdTech trio (Tutor Cards / Student AI Disclosure / Classroom AI AUP), a HealthTech extension (Clinical AI Disclosure), and a cross-cutting Incident Card. **Two regulated verticals covered.**
+
+- **Front door**: [suite.kineticgain.com](https://suite.kineticgain.com/)
+- **Quickstart hub**: [docs.kineticgain.com](https://docs.kineticgain.com/)
+- **Unified MCP server** (34 tools, 8 specs, v0.4.0): [github.com/mizcausevic-dev/mcp-kinetic-gain](https://github.com/mizcausevic-dev/mcp-kinetic-gain)
+- **Unified visualizer** (8 renderers): [github.com/mizcausevic-dev/kinetic-gain-visualizer](https://github.com/mizcausevic-dev/kinetic-gain-visualizer)
+- **Meta-repo**: [github.com/mizcausevic-dev/kinetic-gain-protocol-suite](https://github.com/mizcausevic-dev/kinetic-gain-protocol-suite)
+
+## Author
+
+- **Miz Causevic** · Director / Principal Platform Engineering · Boston, MA
+- [github.com/mizcausevic-dev](https://github.com/mizcausevic-dev) · [linkedin.com/in/mirzacausevic](https://www.linkedin.com/in/mirzacausevic/) · [kineticgain.com](https://kineticgain.com/) · [medium.com/@mizcausevic](https://medium.com/@mizcausevic/)
+- ~30 years across IBM, CyberArk, Alteryx, Digital.ai, Gryphon.ai
