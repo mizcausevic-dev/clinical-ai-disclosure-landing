@@ -41,7 +41,7 @@ Required repo secrets:
 ## Related repositories
 
 - **[clinical-ai-disclosure-spec](https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec)** — the specification, JSON Schema, and canonical examples
-- **[kinetic-gain-visualizer](https://github.com/mizcausevic-dev/kinetic-gain-visualizer)** — unified visualizer for all 10 specs
+- **[kinetic-gain-visualizer](https://github.com/mizcausevic-dev/kinetic-gain-visualizer)** — unified visualizer for all 12 specs
 - **[mcp-kinetic-gain](https://github.com/mizcausevic-dev/mcp-kinetic-gain)** — unified MCP server
 
 ## License
