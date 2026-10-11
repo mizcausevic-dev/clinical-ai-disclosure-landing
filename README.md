@@ -11,7 +11,7 @@ Live at **[clinical.kineticgain.com](https://clinical.kineticgain.com)**.
 ├── index.html              # the landing page
 ├── style.css               # styles (medical-blue + slate palette)
 ├── .github/workflows/
-│   └── deploy.yml          # FTPS push to /clinical/ on Hostinger on push to main
+│   └── deploy.yml          # manual GitHub Actions upload (currently unverified)
 └── README.md
 ```
 
@@ -26,9 +26,9 @@ python3 -m http.server 8080
 
 ## Deployment
 
-Pushes to `main` trigger a GitHub Actions workflow that FTP-syncs the site root to `/clinical/` on Hostinger.
+Merging to `main` does not deploy. The GitHub Actions upload runs only on `workflow_dispatch`; its FTPS path is unverified. For a release, use the reviewed local Hostinger SSH/SFTP route with a pinned host key, exact file backups and hashes, hosted checks, and a tested restore.
 
-Required repo secrets:
+Secrets required only for the manually dispatched Actions upload:
 
 | Secret | Description |
 |---|---|
