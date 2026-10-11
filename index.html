@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="/assets/fonts.css" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=242e4405183d62aa" />
 </head>
 <body>
   <header class="nav">
@@ -42,9 +42,9 @@
         <span class="pill">HealthTech extension · v0.1 draft</span>
         <h1>What does your healthcare AI vendor actually disclose?</h1>
         <p class="lede">
-          <strong>Clinical AI Disclosure</strong> is an open JSON specification that forces healthcare AI
-          vendors to declare — in machine-readable form — exactly what their system does, what FDA / SaMD
-          class it falls under, what evidence supports it, what HIPAA posture it carries, and how it
+          <strong>Clinical AI Disclosure</strong> is an open JSON specification for healthcare AI
+          vendors to declare — in machine-readable form — what their system is intended to do, its reported FDA / SaMD
+          status, the evidence they cite, their stated HIPAA posture, and how it
           integrates with the EHR. Built for hospital CMIOs, compliance officers, and procurement teams
           tired of reading 40-page vendor whitepapers.
         </p>
@@ -53,8 +53,8 @@
           <a class="btn btn-secondary" href="https://mizcausevic-dev.github.io/kinetic-gain-visualizer/?view=editor" target="_blank" rel="noreferrer">Try the visualizer</a>
         </div>
         <ul class="hero-bullets">
-          <li><span class="dot dot-blue"></span> <strong>Autonomy ⇔ device:</strong> autonomous clinical AI MUST be classified as a medical device — schema-enforced</li>
-          <li><span class="dot dot-blue"></span> <strong>Bias audit as first-class field</strong> — required for SaMD class II+ and autonomous decision support</li>
+          <li><span class="dot dot-blue"></span> <strong>Autonomy ⇔ device:</strong> the schema requires a medical-device declaration for autonomous clinical AI</li>
+          <li><span class="dot dot-blue"></span> <strong>Bias audit as first-class field</strong> — required by this schema for SaMD class II+ and autonomous decision support</li>
           <li><span class="dot dot-blue"></span> Served at <code>/.well-known/clinical-ai/&lt;system_id&gt;.json</code></li>
         </ul>
       </div>
@@ -64,7 +64,7 @@
       <div class="block-inner">
         <h2>Why a Clinical AI Card?</h2>
         <p class="prose">
-          Today, hospital procurement teams read AI-vendor whitepapers, HIPAA attestations, and (when applicable) FDA 510(k) summaries as PDFs. A Clinical AI Card is the same content in a format an EHR app gallery, an automated procurement tool, or a compliance auditor can read in milliseconds. The fields map directly to controls in CMS Conditions of Participation, 21st Century Cures Act information-blocking provisions, and HIPAA security-rule audits.
+          Hospital procurement teams review AI-vendor whitepapers, HIPAA attestations, and, when applicable, FDA summaries. A Clinical AI Card puts vendor declarations in a machine-readable format for review. It is a starting point for checking source evidence and applicable requirements; the card alone does not establish regulatory or clinical compliance.
         </p>
         <div class="grid grid-3">
           <article class="card">
@@ -120,8 +120,8 @@
 
     <section id="example" class="block">
       <div class="block-inner">
-        <h2>A canonical example: sepsis early warning</h2>
-        <p class="prose">A 510(k)-cleared SaMD class II early-warning system. EHR-integrated, clinician-override-required, multi-site validated, bias-audited. The same document is served at <code>/.well-known/clinical-ai/kineticgain-sepsis-ews.json</code> for automated discovery.</p>
+        <h2>An illustrative example: sepsis early warning</h2>
+        <p class="prose">This fictional card demonstrates fields for an early-warning system. Its clearance number, certifications, study size, performance figures, and URLs are sample data. They do not establish FDA clearance, clinical validation, HIPAA compliance, or a deployed Kinetic Gain Health product.</p>
         <pre class="code-block"><code>{
   "clinical_ai_card_version": "0.1",
   "system": {
@@ -187,19 +187,19 @@
           <a class="card card-dark" href="https://github.com/mizcausevic-dev/clinical-ai-disclosure-spec" target="_blank" rel="noreferrer">
             <div class="card-eyebrow">Specification</div>
             <h3>clinical-ai-disclosure-spec</h3>
-            <p>The normative spec, JSON Schema, and three canonical examples (sepsis EWS, patient-triage chatbot, research-use molecule design). AGPL-3.0.</p>
+            <p>The MIT-licensed normative spec, JSON Schema, and three canonical examples (sepsis EWS, patient-triage chatbot, research-use molecule design).</p>
             <span class="link">View repo →</span>
           </a>
           <a class="card card-dark" href="https://mizcausevic-dev.github.io/kinetic-gain-visualizer/" target="_blank" rel="noreferrer">
             <div class="card-eyebrow">Visualizer</div>
             <h3>kinetic-gain-visualizer</h3>
-            <p>One visualizer for all 10 specs in the Kinetic Gain Protocol Suite. Auto-detects via <code>clinical_ai_card_version</code>; renders a procurement-grade view.</p>
+            <p>Visualizes supported Suite documents. Auto-detects a Clinical AI Card via <code>clinical_ai_card_version</code> and renders a reviewable view.</p>
             <span class="link">Open visualizer →</span>
           </a>
           <a class="card card-dark" href="https://github.com/mizcausevic-dev/mcp-kinetic-gain" target="_blank" rel="noreferrer">
             <div class="card-eyebrow">MCP server</div>
             <h3>mcp-kinetic-gain</h3>
-            <p>Unified MCP server. v0.7.1 exposes 63 tools across all 11 specs, including Clinical-AI fetch / validate / inspect / compliance-check.</p>
+            <p>Unified MCP server v0.10.0: 75 tools for 12 Suite specs, DefenseTech checks, and implementation previews, including Clinical AI URL, fetch, validate, and inspect tools.</p>
             <span class="link">View on GitHub →</span>
           </a>
         </div>
@@ -210,13 +210,13 @@
       <div class="block-inner block-narrow">
         <h2>About the Kinetic Gain Protocol Suite</h2>
         <p class="prose">
-          Clinical AI Disclosure is the <strong>HealthTech vertical extension</strong> to a family of ten open JSON specifications built for the answer-engine and agent era. Five core specs (<a href="https://github.com/mizcausevic-dev/aeo-protocol-spec" target="_blank" rel="noreferrer">AEO Protocol</a>, <a href="https://github.com/mizcausevic-dev/prompt-provenance-spec" target="_blank" rel="noreferrer">Prompt Provenance</a>, <a href="https://github.com/mizcausevic-dev/agent-cards-spec" target="_blank" rel="noreferrer">Agent Cards</a>, <a href="https://github.com/mizcausevic-dev/ai-evidence-format-spec" target="_blank" rel="noreferrer">AI Evidence Format</a>, <a href="https://github.com/mizcausevic-dev/mcp-tool-card-spec" target="_blank" rel="noreferrer">MCP Tool Cards</a>) plus an <a href="https://tutor.kineticgain.com" target="_blank" rel="noreferrer">EdTech trio</a> and the cross-cutting <a href="https://incidents.kineticgain.com" target="_blank" rel="noreferrer">AI Incident Card</a>. <strong>Front door: <a href="https://suite.kineticgain.com" target="_blank" rel="noreferrer">suite.kineticgain.com</a></strong>.
+          Clinical AI Disclosure is the <strong>HealthTech extension</strong> in a family of twelve open JSON specifications. The Suite includes five core specs (<a href="https://github.com/mizcausevic-dev/aeo-protocol-spec" target="_blank" rel="noreferrer">AEO Protocol</a>, <a href="https://github.com/mizcausevic-dev/prompt-provenance-spec" target="_blank" rel="noreferrer">Prompt Provenance</a>, <a href="https://github.com/mizcausevic-dev/agent-cards-spec" target="_blank" rel="noreferrer">Agent Cards</a>, <a href="https://github.com/mizcausevic-dev/ai-evidence-format-spec" target="_blank" rel="noreferrer">AI Evidence Format</a>, <a href="https://github.com/mizcausevic-dev/mcp-tool-card-spec" target="_blank" rel="noreferrer">MCP Tool Cards</a>), the <a href="https://tutor.kineticgain.com" target="_blank" rel="noreferrer">EdTech trio</a>, the cross-cutting <a href="https://incidents.kineticgain.com" target="_blank" rel="noreferrer">AI Incident Card</a>, and two Decision Cards: <a href="https://decisions.kineticgain.com" target="_blank" rel="noreferrer">Procurement</a> and <a href="https://github.com/mizcausevic-dev/ai-claims-decision-card-spec" target="_blank" rel="noreferrer">AI Claims</a>. <strong>Front door: <a href="https://suite.kineticgain.com" target="_blank" rel="noreferrer">suite.kineticgain.com</a></strong>.
         </p>
         <p class="prose">
           A single Clinical AI Card cross-references the underlying Agent Card, AI Evidence documents for each validation study, and the AI Incident Card index. A CMIO pulls one card and chains through to every related disclosure in one document-graph walk. <strong>No procurement-team PDF marathon.</strong>
         </p>
         <p class="prose">
-          All specs are AGPL-3.0 for normative text, with unrestricted implementation freedom. Built by <a href="https://kineticgain.com" target="_blank" rel="noreferrer">Miz Causevic</a>.
+          The Suite specifications are MIT-licensed; reference implementations carry their own licenses. Built by <a href="https://kineticgain.com" target="_blank" rel="noreferrer">Miz Causevic</a>.
         </p>
       </div>
     </section>
